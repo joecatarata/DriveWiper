@@ -1,8 +1,10 @@
 import os
 import psutil
-class Formatter():
 
-    drive = ''
+class Wiper():
+
+    currDrive = ''
+    drivePath = ''
     def __init__(self, drive=None):
         self.drive = drive
 
@@ -18,10 +20,29 @@ class Formatter():
         print("Drive opened!")
 
     def checkFileSystem(self):
-        psutil.disk_partitions()
+        disk_partitions = psutil.disk_partitions()[0]
+        print(disk_partitions)
+
+    def formatToNTFS(drive=None):
+        if drive is None: #Use current drive
+            pass
+        else:
+            pass
+
+    def formatToFAT32(drive=None):
+        if drive is None: #Use current drive
+            pass
+        else:
+            pass
+    def setDrivePath(self, path):
+        self.drivePath = path
+
+#Variable for path (change using GUI or static only lol)
+path = "/dev/sdc"
 
 with open("/dev/sdc", 'r+b') as drive:
-    wiper = Formatter()
+    wiper = Wiper()
+    wiper.setDrivePath(path)
     wiper.openDrive(drive)
 
 wiper.testDrive()
