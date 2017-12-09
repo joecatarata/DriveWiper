@@ -45,11 +45,11 @@ class Wiper():
         if "Linux" in platform.platform(): #for Linux
             os.system("umount " + self.drivePath)
             if outputFileSystem is "FAT32":
-                os.system("sudo mkfs.vfat "  + self.drivePath)
+                os.system("sudo mkfs.vfat -F 32 "  + self.drivePath)
                 print("Drive formatted to FAT32!")
-            elif outputFileSystem == "NTFS": #NOT WORKING! TO DO
-                os.system("sudo mkntfs " + self.drivePath)
-                print("Drive formatted to NTFS!")
+            elif outputFileSystem == "ext4": #NOT WORKING! TO DO
+                os.system("sudo mkfs.ext4 " + self.drivePath)
+                print("Drive formatted to ext4!")
             elif outputFileSystem is "exFat":
                 os.system("sudo mkfs.exfat " + self.drivePath)
                 print("Drive formatted to exFat!")
@@ -71,15 +71,31 @@ class Wiper():
             path = self.driveInfo[1]
         print(os.listdir(path))
 
-    def deleteFile(self, fileName, **kwargs):
-        if 'path' not in kwargs:
+    def deleteFile(self, fileName, algorithm=None, path=None):
+        if path is None:
             path = self.driveInfo[1]
-        else:
-            path = kwargs['path']
-        with open(os.path.join(path,fileName), "r+b") as file:
-            pass
+        if algorithm is None:
+            algorithm = "ZeroFill"
 
-    def getMetadata(self, fileName, path=None):
+        metadata = self.getMetaData(fileName)
+        fileSize = metadata['File Size']
+        with open(os.path.join(path,fileName), "wb+") as file:
+            for ctr in range(0,fileSize):
+                if algorithm is "ZeroFill":
+                    file.write(b'\x00')
+                    print("Entered 0Fill")
+                elif algorithm is "OneFill":
+                    file.write(b'\x11')
+                    print("Entered 1fill")
+                elif algorithm is "":
+                    pass
+
+            #os.remove(os.path.join(path,fileName))
+
+        print("File deleted!")
+
+
+    def getMetaData(self, fileName, path=None):
         if path is None:
             path = self.driveInfo[1]
 
@@ -93,8 +109,6 @@ class Wiper():
         print(metadata)
         return metadata
         #Do data unit and metadata layer
-
-
 
 #Variable for path (change using GUI or static only lol)
 path = "/dev/sdc"
@@ -110,6 +124,6 @@ wiper.testDrive()
 wiper.getFileSystem()
 wiper.listFiles()
 #wiper.getMetadata("sample.txt")
-wiper.writeFile()
-#wiper.deleteFile('path'=/dev/sdc)
-wiper.formatDrive("exFat") #Change argument to output fileSystem
+#wiper.writeFile()
+wiper.deleteFile("new 1.txt", "OneFill")
+#wiper.formatDrive("FAT32") #Change argument to output fileSystem
