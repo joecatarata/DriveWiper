@@ -37,12 +37,19 @@ class Wiper():
                     self.driveInfo = disk
                     print(self.driveInfo)
 
-    def formatDrive(self, drive=None, outputFileSystem=None):
+    def formatDrive(self, outputFileSystem=None, drive=None):
         if drive is None: #Use current drive
             drive = self.drive
-        if outputFileSystem is None:
-            outputFileSystem = "NTFS"
-        os.system("echo \" Hello World \"")
+        if outputFileSystem is None: #default Format
+            outputFileSystem = "FAT32"
+        if "Linux" in platform.platform(): #for Linux
+            os.system("umount " + self.drivePath)
+            if outputFileSystem is "FAT32":
+                os.system("sudo mkfs.vfat "  + self.drivePath)
+                print("Drive formatted to FAT32!")
+            elif outputFileSystem == "NTFS":
+                os.system("sudo mkntfs " + self.drivePath)
+                print("Drive formatted to NTFS!")
 
     def setDrivePath(self, path):
         self.drivePath = path
@@ -82,6 +89,9 @@ class Wiper():
         print(metadata)
         return metadata
         #Do data unit and metadata layer
+
+
+
 #Variable for path (change using GUI or static only lol)
 path = "/dev/sdc"
 
@@ -94,7 +104,7 @@ with open(path, 'r+b') as drive:
 #Testing the methods
 wiper.testDrive()
 wiper.getFileSystem()
-wiper.writeFile()
 wiper.listFiles()
-wiper.getMetadata("sample.txt")
-wiper.formatDrive()
+#wiper.getMetadata("sample.txt")
+wiper.writeFile()
+wiper.formatDrive("NTFS")
