@@ -9,3 +9,4 @@ This program has:
 * Select Files/Blocks to delete
 * Drive can still be used after deletion
 ## Metadata Reader
+* Able to read File Name layer, Metadata Layer and Data Unit Layer

@@ -20,9 +20,8 @@ class Wiper():
         self.drive = drive
         print("Drive opened!")
 
-    def checkFileSystem(self):
+    def getFileSystem(self): #Gets file system and assigns it to self.drivePath
         print(self.drivePath)
-
         for disk in psutil.disk_partitions():
             print(disk[0])
             if(disk[0] == self.drivePath):
@@ -41,6 +40,7 @@ class Wiper():
             pass
         else:
             pass
+
     def setDrivePath(self, path):
         self.drivePath = path
 
@@ -48,7 +48,7 @@ class Wiper():
         if fileName is None:
             fileName = "sample.txt"
         if string is None:
-            string = "Life"
+            string = "Sample"
         with open(os.path.join(self.driveInfo[1], fileName), "w") as file:
             file.write(string)
             print("File written at " + os.path.join(self.driveInfo[1], fileName))
@@ -58,7 +58,27 @@ class Wiper():
             path = self.driveInfo[1]
         print(os.listdir(path))
 
+    def deleteFile(self, fileName, path=None):
+        if path is None:
+            path = self.driveInfo[1]
 
+        with open(os.path.join(path,fileName), "r+b") as file:
+            pass
+
+    def getMetadata(self, fileName, path=None):
+        if path is None:
+            path = self.driveInfo[1]
+
+        metadata = {}
+        temp = os.stat(os.path.join(path,fileName))
+        print(temp)
+        metadata["File Name"] = fileName
+        metadata["Inode"] = temp[1]
+        metadata["File Size"] = temp[6]
+
+        print(metadata)
+        return metadata
+        #Do data unit and metadata layer
 #Variable for path (change using GUI or static only lol)
 path = "/dev/sdc"
 
@@ -68,8 +88,9 @@ with open("/dev/sdc", 'r+b') as drive:
     wiper.setDrivePath(path)
     wiper.openDrive(drive)
 
-#Testing methods
+#Testing the methods
 wiper.testDrive()
-wiper.checkFileSystem()
+wiper.getFileSystem()
 wiper.writeFile()
 wiper.listFiles()
+wiper.getMetadata("sample.txt")
