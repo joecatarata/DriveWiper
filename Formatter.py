@@ -1,11 +1,13 @@
 import os
 import psutil
+import platform
+import re
 
 class Wiper():
-
     currDrive = ''
     drivePath = ''
     driveInfo = []
+    linuxCommands = {}
     def __init__(self, drive=None):
         self.currDrive = drive
 
@@ -20,26 +22,27 @@ class Wiper():
         self.drive = drive
         print("Drive opened!")
 
-    def getFileSystem(self): #Gets file system and assigns it to self.drivePath
+    def getFileSystem(self, driveLetter=None): #Gets file system and assigns it to self.drivePath
         print(self.drivePath)
         for disk in psutil.disk_partitions():
             print(disk[0])
-            if(disk[0] == self.drivePath):
-                print("Found " + self.drivePath + "'s Metadata!")
-                self.driveInfo = disk
-                print(self.driveInfo)
+            if driveLetter is None:
+                if(disk[0] == self.drivePath):
+                    print("Found " + self.drivePath + "'s Metadata!")
+                    self.driveInfo = disk
+                    print(self.driveInfo)
+            else: #G:\\
+                if(disk[0] == driveLetter):
+                    print("Found " + self.drivePath + "'s Metadata!")
+                    self.driveInfo = disk
+                    print(self.driveInfo)
 
-    def formatToNTFS(drive=None):
+    def formatDrive(self, drive=None, outputFileSystem=None):
         if drive is None: #Use current drive
-            pass
-        else:
-            pass
-
-    def formatToFAT32(drive=None):
-        if drive is None: #Use current drive
-            pass
-        else:
-            pass
+            drive = self.drive
+        if outputFileSystem is None:
+            outputFileSystem = "NTFS"
+        os.system("echo \" Hello World \"")
 
     def setDrivePath(self, path):
         self.drivePath = path
@@ -83,7 +86,7 @@ class Wiper():
 path = "/dev/sdc"
 
 #Open drive in r+b
-with open("/dev/sdc", 'r+b') as drive:
+with open(path, 'r+b') as drive:
     wiper = Wiper()
     wiper.setDrivePath(path)
     wiper.openDrive(drive)
@@ -94,3 +97,4 @@ wiper.getFileSystem()
 wiper.writeFile()
 wiper.listFiles()
 wiper.getMetadata("sample.txt")
+wiper.formatDrive()
