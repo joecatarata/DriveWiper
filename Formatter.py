@@ -47,8 +47,11 @@ class Wiper():
             if outputFileSystem is "FAT32":
                 os.system("sudo mkfs.vfat "  + self.drivePath)
                 print("Drive formatted to FAT32!")
-            elif outputFileSystem == "NTFS":
+            elif outputFileSystem == "NTFS": #NOT WORKING! TO DO
                 os.system("sudo mkntfs " + self.drivePath)
+                print("Drive formatted to NTFS!")
+            elif outputFileSystem is "exFat":
+                os.system("sudo mkfs.exFat " + self.drivePath)
                 print("Drive formatted to NTFS!")
 
     def setDrivePath(self, path):
@@ -68,10 +71,11 @@ class Wiper():
             path = self.driveInfo[1]
         print(os.listdir(path))
 
-    def deleteFile(self, fileName, path=None):
-        if path is None:
+    def deleteFile(self, fileName, **kwargs):
+        if 'path' not in kwargs:
             path = self.driveInfo[1]
-
+        else:
+            path = kwargs['path']
         with open(os.path.join(path,fileName), "r+b") as file:
             pass
 
@@ -107,4 +111,5 @@ wiper.getFileSystem()
 wiper.listFiles()
 #wiper.getMetadata("sample.txt")
 wiper.writeFile()
-wiper.formatDrive("NTFS")
+wiper.deleteFile(path=/dev/sdc)
+wiper.formatDrive("exFat") #Change argument to output fileSystem
