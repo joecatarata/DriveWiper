@@ -37,6 +37,9 @@ class Wiper():
                     self.driveInfo = disk
                     print(self.driveInfo)
 
+
+        return self.driveInfo
+
     def formatDrive(self, outputFileSystem=None, drive=None):
         if drive is None: #Use current drive
             drive = self.drive
@@ -47,7 +50,7 @@ class Wiper():
             if outputFileSystem is "FAT32":
                 os.system("sudo mkfs.vfat -F 32 "  + self.drivePath)
                 print("Drive formatted to FAT32!")
-            elif outputFileSystem == "ext4": #NOT WORKING! TO DO
+            elif outputFileSystem == "ext4": #Working
                 os.system("sudo mkfs.ext4 " + self.drivePath)
                 print("Drive formatted to ext4!")
             elif outputFileSystem is "exFat":
@@ -87,10 +90,17 @@ class Wiper():
                 elif algorithm is "OneFill":
                     file.write(b'\x11')
                     print("Entered 1fill")
-                elif algorithm is "":
-                    pass
+                elif algorithm is "AlterFill": #Alternate Fill (0/1)
+                    if ctr % 0 is 0:
+                        file.write(b'\x00')
+                    else:
+                        file.write(b'\x11')
+                elif algorithm is "TwoFill":
+                    file.write(b'\x10')
+                elif algorithm is "ThreeFill":
+                    file.write(b'\x11')
 
-            #os.remove(os.path.join(path,fileName))
+            os.remove(os.path.join(path,fileName))
 
         print("File deleted!")
 
@@ -125,5 +135,5 @@ wiper.getFileSystem()
 wiper.listFiles()
 #wiper.getMetadata("sample.txt")
 #wiper.writeFile()
-wiper.deleteFile("new 1.txt", "OneFill")
+#wiper.deleteFile("new 1.txt", "OneFill")
 #wiper.formatDrive("FAT32") #Change argument to output fileSystem
