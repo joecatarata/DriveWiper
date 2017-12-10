@@ -130,9 +130,13 @@ with open(path, 'r+b') as drive:
     wiper.openDrive(drive)
 
 #Testing the methods
-wiper.testDrive()
-wiper.getFileSystem()
-wiper.listFiles()
+# wiper.testDrive()
+# wiper.getFileSystem()
+# wiper.listFiles()
+
+test = wiper.getFileSystem()
+print(test[1])
+print(psutil.disk_usage("/run/media/vertijoe/4FF6-51AA"))
 #wiper.getMetadata("sample.txt")
 #wiper.writeFile()
 #wiper.deleteFile("new 1.txt", "OneFill")
