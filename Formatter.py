@@ -47,13 +47,13 @@ class Wiper():
             outputFileSystem = "FAT32"
         if "Linux" in platform.platform(): #for Linux
             os.system("umount " + self.drivePath)
-            if outputFileSystem is "FAT32":
+            if outputFileSystem == "FAT32":
                 os.system("sudo mkfs.vfat -F 32 "  + self.drivePath)
                 print("Drive formatted to FAT32!")
             elif outputFileSystem == "ext4": #Working
                 os.system("sudo mkfs.ext4 " + self.drivePath)
                 print("Drive formatted to ext4!")
-            elif outputFileSystem is "exFat":
+            elif outputFileSystem == "exFat":
                 os.system("sudo mkfs.exfat " + self.drivePath)
                 print("Drive formatted to exFat!")
 
@@ -136,4 +136,4 @@ wiper.listFiles()
 #wiper.getMetadata("sample.txt")
 #wiper.writeFile()
 #wiper.deleteFile("new 1.txt", "OneFill")
-#wiper.formatDrive("FAT32") #Change argument to output fileSystem
+wiper.formatDrive("FAT32") #Change argument to output fileSystem
