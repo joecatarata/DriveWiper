@@ -7,8 +7,9 @@ This program has:
 * Two-Fill
 * Three-Fill
 ## Drive Formatting
-* Format to different file systems
-* Select Files/Blocks to delete
-* Drive can still be used after deletion
+* Format to
+** exFat
+** ext4
+** FAT32
 ## Metadata Reader
 * Able to read File Name layer, Metadata Layer and Data Unit Layer  
