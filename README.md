@@ -3,7 +3,9 @@ This program has:
 ## File Deletion Algorithms
 * Zero-Fill
 * One-Fill
-* Gaussian
+* Alter-Fill
+* Two-Fill
+* Three-Fill
 ## Drive Formatting
 * Format to different file systems
 * Select Files/Blocks to delete
