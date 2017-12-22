@@ -8,8 +8,8 @@ This program has:
 * Three-Fill
 ## Drive Formatting
 * Format to
-** exFat
-** ext4
-** FAT32
+    * exFat
+    * ext4
+    * FAT32
 ## Metadata Reader
 * Able to read File Name layer, Metadata Layer and Data Unit Layer  
